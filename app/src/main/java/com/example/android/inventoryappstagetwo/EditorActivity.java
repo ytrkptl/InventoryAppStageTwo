@@ -15,10 +15,8 @@
  */
 package com.example.android.inventoryappstagetwo;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
@@ -29,22 +27,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.android.inventoryappstagetwo.data.InventoryContract.InventoryEntry;
-
-import java.text.DecimalFormat;
-import java.util.Locale;
 
 /**
  * Allows user to create a new inventory or edit an existing one.
@@ -128,6 +122,11 @@ public class EditorActivity extends AppCompatActivity implements
         mQuantityEditText = findViewById(R.id.edit_quantity);
         mSupplierNameEditText = findViewById(R.id.edit_supplier_name);
         mSupplierPhoneEditText = findViewById(R.id.edit_supplier_ph_no);
+        mSupplierPhoneEditText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+        if (mSupplierPhoneEditText.getText().length() != 11) {
+            mSupplierPhoneEditText.setText(R.string.hint_supplier_ph_no);
+            Toast.makeText(getApplicationContext(), "Please input a valid phone number.", Toast.LENGTH_SHORT).show();
+        }
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
@@ -395,14 +394,14 @@ public class EditorActivity extends AppCompatActivity implements
             Double price = cursor.getDouble(priceColumnIndex);
             Integer quantity = cursor.getInt(quantityColumnIndex);
             String supplierName = cursor.getString(supplierNameColumnIndex);
-            Integer supplierPhone = cursor.getInt(supplierPhoneColumnIndex);
+            String supplierPhone = cursor.getString(supplierPhoneColumnIndex);
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
             mPriceEditText.setText(Double.toString(price));
             mQuantityEditText.setText(Integer.toString(quantity));
             mSupplierNameEditText.setText(supplierName);
-            mSupplierPhoneEditText.setText(Integer.toString(supplierPhone));
+            mSupplierPhoneEditText.setText(supplierPhone);
         }
     }
 

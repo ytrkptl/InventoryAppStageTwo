@@ -106,9 +106,19 @@
 
     <!-- Label for quantity information in the editor [CHAR LIMIT=30] -->
     <string name="category_quantity">Quantity</string>
+
+    <!--Label for quantitiy-->
     <string name="quantity_label">Quantity</string>
+
+    <!--Text to show on the sold button-->
     <string name="sold_button_text">Sold +1</string>
+
+    <!--Label for product's price-->
     <string name="product_price_label">Price</string>
+
+    <!--Label for supplier phone number-->
     <string name="supplier_phone_number_label">Supplier Phone Number</string>
+
+    <!--Text to show when user keeps pressing minus even though quantity is zero.-->
     <string name="no_negative_quantity_toast">The quantity cannot be a negative number.</string>
 </resources>

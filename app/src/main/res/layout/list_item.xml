@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -16,7 +15,7 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fontFamily="sans-serif-medium"
+            android:fontFamily="sans-serif-medium"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="#2B3D4D" />
 
@@ -24,7 +23,7 @@
             android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fontFamily="sans-serif"
+            android:fontFamily="sans-serif"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="#AEB6BD" />
     </LinearLayout>
@@ -40,7 +39,7 @@
             android:id="@+id/quantityLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fontFamily="sans-serif-medium"
+            android:fontFamily="sans-serif-medium"
             android:text="@string/quantity_label"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="#2B3D4D" />
@@ -50,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:fontFamily="sans-serif"
+            android:fontFamily="sans-serif"
             android:textAppearance="?android:textAppearanceLarge"
             android:textColor="#AEB6BD" />
     </LinearLayout>

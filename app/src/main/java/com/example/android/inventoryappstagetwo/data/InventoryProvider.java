@@ -31,13 +31,19 @@ import com.example.android.inventoryappstagetwo.data.InventoryContract.Inventory
  */
 public class InventoryProvider extends ContentProvider {
 
-    /** Tag for the log messages */
+    /**
+     * Tag for the log messages
+     */
     public static final String LOG_TAG = InventoryProvider.class.getSimpleName();
 
-    /** URI matcher code for the content URI for the inventory table */
+    /**
+     * URI matcher code for the content URI for the inventory table
+     */
     private static final int INVENTORY = 100;
 
-    /** URI matcher code for the content URI for a single product in the inventory table */
+    /**
+     * URI matcher code for the content URI for a single product in the inventory table
+     */
     private static final int INVENTORY_ID = 101;
 
     /**
@@ -68,7 +74,9 @@ public class InventoryProvider extends ContentProvider {
         sUriMatcher.addURI(InventoryContract.CONTENT_AUTHORITY, InventoryContract.PATH_INVENTORY + "/#", INVENTORY_ID);
     }
 
-    /** Database helper object */
+    /**
+     * Database helper object
+     */
     private InventoryDbHelper mDbHelper;
 
     @Override
@@ -106,7 +114,7 @@ public class InventoryProvider extends ContentProvider {
                 // arguments that will fill in the "?". Since we have 1 question mark in the
                 // selection, we have 1 String in the selection arguments' String array.
                 selection = InventoryEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
                 // This will perform a query on the inventoryappstagetwo table where the _id equals 3 to return a
                 // Cursor containing that row of the table.
@@ -192,7 +200,7 @@ public class InventoryProvider extends ContentProvider {
                 // so we know which row to update. Selection will be "_id=?" and selection
                 // arguments will be a String array containing the actual ID.
                 selection = InventoryEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updateInventory(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
@@ -213,7 +221,6 @@ public class InventoryProvider extends ContentProvider {
                 throw new IllegalArgumentException("Product requires a name");
             }
         }
-
         // If the {@link InventoryEntry#COLUMN_PRICE} key is present,
         // check that the price value is not null.
         if (values.containsKey(InventoryEntry.COLUMN_PRICE)) {
@@ -222,6 +229,15 @@ public class InventoryProvider extends ContentProvider {
                 throw new IllegalArgumentException("Product requires a price");
             }
         }
+        // If the {@link InventoryEntry#COLUMN_PRICE} key is present,
+        // check that the quantity value is not null.
+        if (values.containsKey(InventoryEntry.COLUMN_QUANTITY)) {
+            String quantity = values.getAsString(InventoryEntry.COLUMN_QUANTITY);
+            if (quantity == null) {
+                throw new IllegalArgumentException("Product requires a quantity");
+            }
+        }
+
 
         // No need to check the supplier phone number, any value is valid (including null).
 
@@ -263,7 +279,7 @@ public class InventoryProvider extends ContentProvider {
             case INVENTORY_ID:
                 // Delete a single row given by the ID in the URI
                 selection = InventoryEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = database.delete(InventoryEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
