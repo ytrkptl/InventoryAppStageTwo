@@ -44,27 +44,41 @@ import com.example.android.inventoryappstagetwo.data.InventoryContract.Inventory
  * Allows user to create a new inventory or edit an existing one.
  */
 public class EditorActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Cursor>  {
+        LoaderManager.LoaderCallbacks<Cursor> {
 
-    /** Identifier for the inventory data loader */
+    /**
+     * Identifier for the inventory data loader
+     */
     private static final int EXISTING_INVENTORY_LOADER = 0;
 
-    /** Content URI for the existing inventory (null if it's a new inventory) */
+    /**
+     * Content URI for the existing inventory (null if it's a new inventory)
+     */
     private Uri mCurrentInventoryUri;
 
-    /** EditText field to enter the inventory's name */
+    /**
+     * EditText field to enter the inventory's name
+     */
     private EditText mNameEditText;
 
-    /** EditText field to enter the inventory product's price */
+    /**
+     * EditText field to enter the inventory product's price
+     */
     private EditText mPriceEditText;
 
-    /** EditText field to enter the inventory product's quantity */
+    /**
+     * EditText field to enter the inventory product's quantity
+     */
     private EditText mQuantityEditText;
 
-    /** EditText field to enter the supplier's name */
+    /**
+     * EditText field to enter the supplier's name
+     */
     private EditText mSupplierNameEditText;
 
-    /** EditText field to enter the supplier's phone number */
+    /**
+     * EditText field to enter the supplier's phone number
+     */
     private EditText mSupplierPhoneEditText;
 
     /**
@@ -72,7 +86,9 @@ public class EditorActivity extends AppCompatActivity implements
      */
     private int mQuantity = InventoryEntry.QUANTITY_ZERO;
 
-    /** Boolean flag that keeps track of whether the inventory has been edited (true) or not (false) */
+    /**
+     * Boolean flag that keeps track of whether the inventory has been edited (true) or not (false)
+     */
     private boolean mInventoryHasChanged = false;
 
     /**
@@ -119,16 +135,11 @@ public class EditorActivity extends AppCompatActivity implements
         mNameEditText = findViewById(R.id.edit_inventory_name);
         mPriceEditText = findViewById(R.id.edit_inventory_price);
         //set the filter on the priceEditText so that it restricts input to two places after decimal
-        mPriceEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2)});
+        mPriceEditText.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(2)});
         mQuantityEditText = findViewById(R.id.edit_quantity);
         mSupplierNameEditText = findViewById(R.id.edit_supplier_name);
         mSupplierPhoneEditText = findViewById(R.id.edit_supplier_ph_no);
         mSupplierPhoneEditText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-//        if (mSupplierPhoneEditText.getText().length() != 11) {
-//            mSupplierPhoneEditText.setText(R.string.hint_supplier_ph_no);
-//            Toast.makeText(getApplicationContext(), "Please input a valid phone number.", Toast.LENGTH_SHORT).show();
-//        }
-
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
         // or not, if the user tries to leave the editor without saving.
@@ -145,7 +156,7 @@ public class EditorActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 //Refer to the quantity
                 Integer quantity = Integer.parseInt(mQuantityEditText.getText().toString());
-                if (quantity >=1){
+                if (quantity >= 1) {
                     quantity--;
                 } else {
                     Toast.makeText(getApplicationContext(), R.string.no_negative_quantity_toast, Toast.LENGTH_LONG).show();
@@ -181,6 +192,7 @@ public class EditorActivity extends AppCompatActivity implements
             }
         });
     }
+
     // method for opening apps that can handle phone calling
     public void dialPhoneNumber(String phoneNumber) {
         Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -189,6 +201,7 @@ public class EditorActivity extends AppCompatActivity implements
             startActivity(intent);
         }
     }
+
     /**
      * Get user input from editor and save inventory product into database.
      */
@@ -206,8 +219,7 @@ public class EditorActivity extends AppCompatActivity implements
         if (mCurrentInventoryUri == null &&
                 TextUtils.isEmpty(nameString) && TextUtils.isEmpty(priceString) &&
                 TextUtils.isEmpty(quantityString) && TextUtils.isEmpty(supplierNameString)
-                && TextUtils.isEmpty(supplierPhoneNumber) && mQuantity == InventoryEntry.QUANTITY_ZERO)
-        {
+                && TextUtils.isEmpty(supplierPhoneNumber) && mQuantity == InventoryEntry.QUANTITY_ZERO) {
             // Since no fields were modified, we can return early without creating a new inventory product.
             // No need to create ContentValues and no need to do any ContentProvider operations.
             return;
@@ -474,6 +486,7 @@ public class EditorActivity extends AppCompatActivity implements
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
     /**
      * Prompt the user to confirm that they want to delete this inventory product.
      */
