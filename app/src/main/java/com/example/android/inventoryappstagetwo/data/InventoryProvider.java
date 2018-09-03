@@ -237,8 +237,6 @@ public class InventoryProvider extends ContentProvider {
                 throw new IllegalArgumentException("Product requires a quantity");
             }
         }
-
-
         // No need to check the supplier phone number, any value is valid (including null).
 
         // If there are no values to update, then don't try to update the database

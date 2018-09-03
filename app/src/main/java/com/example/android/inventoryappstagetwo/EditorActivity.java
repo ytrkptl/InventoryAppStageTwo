@@ -118,15 +118,16 @@ public class EditorActivity extends AppCompatActivity implements
         // Find all relevant views that we will need to read user input from
         mNameEditText = findViewById(R.id.edit_inventory_name);
         mPriceEditText = findViewById(R.id.edit_inventory_price);
+        //set the filter on the priceEditText so that it restricts input to two places after decimal
         mPriceEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2)});
         mQuantityEditText = findViewById(R.id.edit_quantity);
         mSupplierNameEditText = findViewById(R.id.edit_supplier_name);
         mSupplierPhoneEditText = findViewById(R.id.edit_supplier_ph_no);
         mSupplierPhoneEditText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-        if (mSupplierPhoneEditText.getText().length() != 11) {
-            mSupplierPhoneEditText.setText(R.string.hint_supplier_ph_no);
-            Toast.makeText(getApplicationContext(), "Please input a valid phone number.", Toast.LENGTH_SHORT).show();
-        }
+//        if (mSupplierPhoneEditText.getText().length() != 11) {
+//            mSupplierPhoneEditText.setText(R.string.hint_supplier_ph_no);
+//            Toast.makeText(getApplicationContext(), "Please input a valid phone number.", Toast.LENGTH_SHORT).show();
+//        }
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
@@ -158,9 +159,15 @@ public class EditorActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 //Refer to the quantity
-                Integer quantity = Integer.parseInt(mQuantityEditText.getText().toString());
-                quantity++;
-                mQuantityEditText.setText(Integer.toString(quantity));
+                if (mQuantityEditText.getText().toString().equals("")) {
+                    Integer quantity = 0;
+                    quantity++;
+                    mQuantityEditText.setText(Integer.toString(quantity));
+                } else {
+                    Integer quantity = Integer.parseInt(mQuantityEditText.getText().toString());
+                    quantity++;
+                    mQuantityEditText.setText(Integer.toString(quantity));
+                }
             }
         });
         //the code for asking the user if he really wants to call
@@ -221,7 +228,13 @@ public class EditorActivity extends AppCompatActivity implements
             quantity = Integer.parseInt(quantityString);
         }
         values.put(InventoryEntry.COLUMN_QUANTITY, quantity);
-
+        // If the price is not provided by the user, don't try to parse the double into an
+        // integer value. Use 0.00 by default.
+        double price = 0.00;
+        if (!TextUtils.isEmpty(priceString)) {
+            price = Double.parseDouble(priceString);
+        }
+        values.put(InventoryEntry.COLUMN_PRICE, price);
         // Determine if this is a new or existing product by checking if mCurrentInventoryUri is null or not
         if (mCurrentInventoryUri == null) {
             // This is a NEW product, so insert a new product into the provider,
@@ -287,10 +300,28 @@ public class EditorActivity extends AppCompatActivity implements
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
-                // Save product to database
-                saveInventory();
-                // Exit activity
-                finish();
+                //Check to make sure that product name, price, and quantity are filled in, and also encourage user to type in supplier name, and phone number
+                if (mNameEditText.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), R.string.required_name_toast, Toast.LENGTH_SHORT).show();
+                    mNameEditText.setError(getString(R.string.name_set_error));
+                } else if (mPriceEditText.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), R.string.price_toast_required, Toast.LENGTH_SHORT).show();
+                    mPriceEditText.setError(getString(R.string.price_set_error));
+                } else if (mQuantityEditText.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), R.string.quantity_toast_required, Toast.LENGTH_SHORT).show();
+                    mQuantityEditText.setError(getString(R.string.quantity_set_error));
+                } else if (mSupplierNameEditText.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), R.string.supplier_name_toast_required, Toast.LENGTH_SHORT).show();
+                    mSupplierNameEditText.setError(getString(R.string.supplier_name_set_error));
+                } else if (mSupplierPhoneEditText.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), R.string.supplier_phone_toast_required, Toast.LENGTH_SHORT).show();
+                    mSupplierPhoneEditText.setError(getString(R.string.phone_set_error));
+                } else {
+                    // Save product to database
+                    saveInventory();
+                    // Exit activity
+                    finish();
+                }
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:
@@ -443,7 +474,6 @@ public class EditorActivity extends AppCompatActivity implements
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-
     /**
      * Prompt the user to confirm that they want to delete this inventory product.
      */

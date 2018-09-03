@@ -121,4 +121,34 @@
 
     <!--Text to show when user keeps pressing minus even though quantity is zero.-->
     <string name="no_negative_quantity_toast">The quantity cannot be a negative number.</string>
+
+    <!--Text to show in toast message when the user presses the save button without entering a product name-->
+    <string name="required_name_toast">You must enter a name</string>
+
+    <!--Text to show in toast message when the user presses the save button without entering a price-->
+    <string name="price_toast_required">You must enter a price</string>
+
+    <!--Text to show in toast message when the user presses the save button without entering a quantity-->
+    <string name="quantity_toast_required">You must enter a quantity of 0 or higher.</string>
+
+    <!--Text to show in toast message when the user presses the save button without entering a supplier name-->
+    <string name="supplier_name_toast_required">You must enter a supplier name.</string>
+
+    <!--Text to show in toast message when the user presses the save button without entering a supplier name-->
+    <string name="supplier_phone_toast_required">You must enter a phone number.</string>
+
+    <!--Text to show in set error when the user presses the save button without entering a product name-->
+    <string name="name_set_error">Name required</string>
+
+    <!--Text to show in set error when the user presses the save button without entering a price-->
+    <string name="price_set_error">Price required</string>
+
+    <!--Text to show in set error when the user presses the save button without entering a quantity-->
+    <string name="quantity_set_error">Quantity required</string>
+
+    <!--Text to show in set error when the user presses the save button without entering a supplier name-->
+    <string name="supplier_name_set_error">Supplier Name required</string>
+
+    <!--Text to show in set error when the user presses the save button without entering a supplier phone number-->
+    <string name="phone_set_error">Phone number required</string>
 </resources>
