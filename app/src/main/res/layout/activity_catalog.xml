@@ -44,6 +44,7 @@
             android:paddingTop="16dp"
             android:text="@string/empty_view_title_text"
             android:fontFamily="sans-serif-medium"
+            android:layout_alignParentStart="true"
             android:textAppearance="?android:textAppearanceMedium" />
 
         <TextView
